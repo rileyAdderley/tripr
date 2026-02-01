@@ -1,117 +1,28 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image, Pressable } from "react-native";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { TripsProvider } from './contexts/TripsContext';
+
+import HomeScreen from './screens/HomeScreen';
+import CreateTripScreen from './screens/CreateTripScreen';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={styles.container}>
-        <StatusBar style="dark" />
-
-        <Text style={styles.appName}>tripr</Text>
-
-        <View style={styles.heroWrap}>
-          <Image
-            source={require("./assets/hero.jpg")}
-            style={styles.heroImage}
-            resizeMode="cover"
-          />
-        </View>
-
-        <View style={styles.buttonsContainer}>
-          <Pressable
-            style={({ pressed }) => [
-              styles.primaryButton,
-              pressed && styles.pressed,
-            ]}
-            onPress={() => console.log("Create a trip")}
+      <TripsProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}
           >
-            <Text style={styles.primaryButtonText}>create a trip</Text>
-          </Pressable>
-
-          <Pressable
-            style={({ pressed }) => [
-              styles.secondaryButton,
-              pressed && styles.pressed,
-            ]}
-            onPress={() => console.log("My trips")}
-          >
-            <Text style={styles.secondaryButtonText}>my trips</Text>
-          </Pressable>
-        </View>
-      </SafeAreaView>
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="CreateTrip" component={CreateTripScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </TripsProvider>
     </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FAF9F6",
-  },
-
-  appName: {
-    marginTop: 0,
-    marginLeft: 28,
-    fontSize: 64,
-    fontWeight: "300",
-    color: "#111111",
-    letterSpacing: -1.2,
-  },
-
-  heroWrap: {
-    marginTop: -4.9,
-    marginBottom: 10,
-    marginHorizontal: 28,
-    flex: 1,
-    borderRadius: 10,
-    overflow: "hidden",
-    backgroundColor: "#EDEBE6",
-  },
-
-  heroImage: {
-    width: "100%",
-    height: "100%",
-  },
-
-  buttonsContainer: {
-    marginHorizontal: 28,
-    marginBottom: 0,
-    gap: 10,
-  },
-
-  primaryButton: {
-    backgroundColor: "#89986D",
-    height: 62,
-    borderRadius: 36,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  primaryButtonText: {
-    color: "#FAF9F6",
-    fontSize: 38,
-    fontWeight: "300",
-    letterSpacing: 0.6,
-  },
-
-  secondaryButton: {
-    backgroundColor: "#C5D89D",
-    height: 62,
-    borderRadius: 36,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  secondaryButtonText: {
-    color: "#FAF9F6",
-    fontSize: 38,
-    fontWeight: "300",
-    letterSpacing: 0.6,
-  },
-
-  pressed: {
-    opacity: 0.85,
-    transform: [{ scale: 0.99 }],
-  },
-});
