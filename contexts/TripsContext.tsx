@@ -5,6 +5,7 @@ import * as tripStorage from '../utils/tripStorage';
 type TripsContextType = {
   trips: Trip[];
   addTrip: (trip: Trip) => Promise<void>;
+  deleteTrip: (id: string) => Promise<void>;
   loadTrips: () => Promise<void>;
 };
 
@@ -23,12 +24,17 @@ export const TripsProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     await loadTrips();
   };
 
+  const deleteTrip = async (id: string) => {
+    await tripStorage.deleteTrip(id);
+    await loadTrips();
+  };
+
   useEffect(() => {
     loadTrips();
   }, []);
 
   return (
-    <TripsContext.Provider value={{ trips, addTrip, loadTrips }}>
+    <TripsContext.Provider value={{ trips, addTrip, deleteTrip, loadTrips }}>
       {children}
     </TripsContext.Provider>
   );

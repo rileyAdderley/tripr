@@ -34,3 +34,13 @@ export const addTrip = async (trip: Trip): Promise<void> => {
     console.error('Error adding trip:', error);
   }
 };
+
+export const deleteTrip = async (id: string): Promise<void> => {
+  try {
+    const existingTrips = await loadTrips();
+    const updatedTrips = existingTrips.filter((trip) => trip.id !== id);
+    await saveTrips(updatedTrips);
+  } catch (error) {
+    console.error('Error deleting trip:', error);
+  }
+};

@@ -1,19 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useTrips } from "../contexts/TripsContext";
-import { useEffect } from "react";
 
 export default function HomeScreen({ navigation }: any) {
-  const { trips, loadTrips } = useTrips();
-
-  useEffect(() => {
-    loadTrips();
-  }, []);
-
-  useEffect(() => {
-    console.log('Current trips:', trips);
-  }, [trips]);
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="dark" />
@@ -44,7 +33,7 @@ export default function HomeScreen({ navigation }: any) {
             styles.secondaryButton,
             pressed && styles.pressed,
           ]}
-          onPress={() => console.log("My trips")}
+          onPress={() => navigation.navigate('MyTrips')}
         >
           <Text style={styles.secondaryButtonText}>my trips</Text>
         </Pressable>
